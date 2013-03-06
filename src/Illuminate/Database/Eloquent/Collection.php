@@ -35,7 +35,14 @@ class Collection extends BaseCollection {
 	 */
 	public function add($item)
 	{
-		$this->items[] = $item;
+		if ($item instanceof Model)
+		{
+			$this->items[$item->getKey()] = $item;
+		}
+		else
+		{
+			$this->items[] = $item;
+		}
 
 		// If the dictionary is empty, we will re-build it upon adding the item so
 		// we can quickly search it from the "contains" method. This dictionary
