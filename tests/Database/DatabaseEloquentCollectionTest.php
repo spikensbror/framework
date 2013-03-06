@@ -18,6 +18,25 @@ class DatabaseEloquentCollectionTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('foo', 'bar', 'baz'), $c->all());
 	}
 
+	public function testFindDoesIndeedFindKeyedModel()
+	{
+		$mockModel = m::mock('Illuminate\Database\Eloquent\Model');
+		$mockModel->shouldReceive('getKey')->andReturn('foo');
+
+		$mockModel2 = m::mock('Illuminate\Database\Eloquent\Model');
+		$mockModel2->shouldReceive('getKey')->andReturn('bar');
+
+		$c = new Collection(array($mockModel, $mockModel2));
+		$this->assertEquals(
+			$mockModel,
+			$c->find('foo')
+		);
+		$this->assertEquals(
+			$mockModel2,
+			$c->find('bar')
+		);
+	}
+
 
 	public function testContainsIndicatesIfKeyedModelInArray()
 	{
