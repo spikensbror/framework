@@ -80,6 +80,28 @@ class Collection extends BaseCollection {
 	}
 
 	/**
+	 * Get item by primary key in the collection.
+	 * 
+	 * @param string $key
+	 * @return Illuminate\Database\Eloquent\Model|null
+	 */
+	public function find($key)
+	{
+		if ($this->contains($key))
+		{
+			foreach ($this->items as $item)
+			{
+				if ($item instanceof Model and $item->getKey() == $key)
+				{
+					return $item;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Build the dictionary of primary keys.
 	 *
 	 * @return void
